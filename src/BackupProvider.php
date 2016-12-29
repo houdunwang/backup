@@ -8,8 +8,8 @@
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
 namespace houdunwang\backup;
+use houdunwang\framework\build\Provider;
 
-use hdphp\kernel\ServiceProvider;
 
 /**
  * 数据库备份服务
@@ -17,7 +17,7 @@ use hdphp\kernel\ServiceProvider;
  * @package hdphp\backup
  * @author  向军 <2300071698@qq.com>
  */
-class BackupProvider extends ServiceProvider {
+class BackupProvider extends Provider {
 
 	//延迟加载
 	public $defer = true;
@@ -26,8 +26,8 @@ class BackupProvider extends ServiceProvider {
 	}
 
 	public function register() {
-		$this->app->single( 'Backup', function ( $app ) {
-			return new Backup( $app );
+		$this->app->single( 'Backup', function (  ) {
+			return new Backup(  );
 		} );
 	}
 }
