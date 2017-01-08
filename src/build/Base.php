@@ -207,8 +207,7 @@ class Base {
 					$cache['table'][ $table ]['fileId'] += 1;
 					$this->config = $cache;
 					//保存配置
-					$this->saveConfig( $cache );
-
+					$this->saveConfig( '_config.php' );
 					return $callback( [
 						'message' => "数据表[$table] 第 {$cache['table'][$table]['fileId']} 卷备份完成",
 						'status'  => 'run'
