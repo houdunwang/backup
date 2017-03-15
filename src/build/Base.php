@@ -103,7 +103,7 @@ class Base {
 
 			return $callback( [ 'message' => $bl . '%还原完毕', 'status' => 'run' ] );
 		}
-		Dir::delFile( $this->config['config']['dir'].'/_recovery.php' );
+		Dir::delFile( $this->config['config']['dir'] . '/_recovery.php' );
 
 		return $callback( [ 'message' => '所有分卷还原完毕', 'status' => 'success' ] );
 	}
@@ -208,6 +208,7 @@ class Base {
 					$this->config = $cache;
 					//保存配置
 					$this->saveConfig( '_config.php' );
+
 					return $callback( [
 						'message' => "数据表[$table] 第 {$cache['table'][$table]['fileId']} 卷备份完成",
 						'status'  => 'run'
