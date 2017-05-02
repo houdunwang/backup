@@ -12,11 +12,11 @@ composer require houdunwang/backup
 ###备份
 ```
 $config = [
-	'size' => 2,//分卷大小单位KB
+	'size' => 20,//分卷大小单位KB
 	'dir'  => 'backup/' . date( "Ymdhis" ),//备份目录
 ];
-$obj = new \houdunwang\backup\Backup();
-$obj->backup( $config, function ( $result ) {
+
+$status = \houdunwang\backup\Backup::backup( $config, function ( $result ) {
 	if ( $result['status'] == 'run' ) {
 		//备份进行中
 		echo $result['message'];
@@ -29,7 +29,7 @@ $obj->backup( $config, function ( $result ) {
 } );
 if ( $status === false ) {
 	//备份过程出现错误
-	echo $obj->getError();
+	echo \houdunwang\backup\Backup::getError();
 }
 ```
 

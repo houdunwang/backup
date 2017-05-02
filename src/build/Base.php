@@ -233,7 +233,6 @@ class Base
                     $this->config                     = $cache;
                     //保存配置
                     $this->saveConfig('_config.php');
-
                     return $callback(
                         [
                             'message' => "数据表[$table] 第 {$cache['table'][$table]['fileId']} 卷备份完成",
@@ -245,6 +244,7 @@ class Base
         }
         touch($cache['config']['dir'].'/_lock.php');
         Cookie::del('houdunwang_backup_dir');
+
         return $callback(['message' => "完成所有数据备份", 'status' => 'success']);
     }
 
