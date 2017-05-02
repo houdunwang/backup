@@ -4,5 +4,7 @@
 /vendor
 composer.lock
 /attachment
-storage/
-backup/
+/backup
+/config
+/tests/backup
+/tests/storage
