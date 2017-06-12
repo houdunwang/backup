@@ -32,9 +32,11 @@ class Base
     public function getBackupDir($dir)
     {
         $data = [];
-        foreach (Dir::tree($dir) as $d) {
-            if (is_file($d['path'].'/_lock.php')) {
-                $data[] = $d;
+        if (is_dir($dir)) {
+            foreach (Dir::tree($dir) as $d) {
+                if ($d['type'] == 'dir' && is_file($d['path'].'/_lock.php')) {
+                    $data[] = $d;
+                }
             }
         }
 
@@ -193,16 +195,16 @@ class Base
             $sql = '';
             do {
                 $data                            = Db::table($table, true)
-                    ->limit(
-                        $cache['table'][$table]['first'],
-                        20
-                    )->get();
+                                                     ->limit(
+                                                         $cache['table'][$table]['first'],
+                                                         20
+                                                     )->get();
                 $cache['table'][$table]['first'] += 20;
                 //表中无数据
                 if (empty($data)) {
                     if ( ! empty($sql)) {
                         $file = $cache['config']['dir'].'/'.$table.'_'
-                            .$config['fileId'].'.php';
+                                .$config['fileId'].'.php';
                         file_put_contents($file, "<?php \n".$sql);
                     }
                     $cache['table'][$table]['complete'] = true;
@@ -220,19 +222,20 @@ class Base
                 } else {
                     foreach ($data as $d) {
                         $sql .= "\houdunwang\db\Db::table('{$table}',true)->replace("
-                            .var_export($d, true).");\n";
+                                .var_export($d, true).");\n";
                     }
                 }
                 //检测本次备份是否超出分卷大小
                 if (strlen($sql) > $cache['config']['size'] * 1024) {
                     //写入备份
                     $file = $cache['config']['dir'].'/'.$table.'_'
-                        .$config['fileId'].'.php';
+                            .$config['fileId'].'.php';
                     file_put_contents($file, "<?php \n".$sql);
                     $cache['table'][$table]['fileId'] += 1;
                     $this->config                     = $cache;
                     //保存配置
                     $this->saveConfig('_config.php');
+
                     return $callback(
                         [
                             'message' => "数据表[$table] 第 {$cache['table'][$table]['fileId']} 卷备份完成",
